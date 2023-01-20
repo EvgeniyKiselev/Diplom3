@@ -9,11 +9,15 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.html5.WebStorage;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobject.*;
 
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
@@ -32,30 +36,37 @@ public class BaseTest {
     static String password;
     static User user;
 
+    protected final String URL = "https://stellarburgers.nomoreparties.site/";
 
-    @BeforeClass
-    public static void setup() {
+    public WebDriver initDriver() {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setExperimentalOption("useAutomationExtension", false);
+        chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("https://stellarburgers.nomoreparties.site/");
+        driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         objConstructorPage = new ConstructorPage(driver);
         objEnterPage = new EnterPage(driver);
         objPersonalAreaPage = new PersonalAreaPage(driver);
         objRegistrationPage = new RegistrationPage(driver);
         objRecoveryPage = new RecoveryPage(driver);
-        wait = new WebDriverWait(driver, 10L);
+        wait = new WebDriverWait(driver, 40L);
         faker = new Faker();
         name = faker.name().firstName();
         email = faker.internet().emailAddress();
         password = String.valueOf(faker.number().numberBetween(1000000, 99999999));
         user = new User(email, password);
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
+        return driver;
     }
 
+    @Before
+    public void setUp() {
+        initDriver().get(URL);
+    }
 
-    @After
-    public void clearData() throws InterruptedException {
+    public void clearData() {
         Response response = given()
                 .header("Content-type", "application/json")
                 .body(user)
@@ -75,21 +86,26 @@ public class BaseTest {
         ((WebStorage) driver).getSessionStorage().clear();
 
     }
-    @AfterClass
-    public static void tearDown(){
+
+    @After
+    public void tearDown() {
+        clearData();
         driver.quit();
     }
 
-    public void registration(){
+    public void registration() {
         objRegistrationPage.enterName(name);
         objRegistrationPage.enterEmail(email);
         objRegistrationPage.enterPassword(password);
         objRegistrationPage.clickRegistrationButton();
     }
 
-    public void auth(){
+    public void auth() {
         objEnterPage.enterEmail(email);
         objEnterPage.enterPassword(password);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objEnterPage.enterButton)));
         objEnterPage.clickEnterButton();
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(objEnterPage.enterButton)));
     }
+
 }

@@ -15,7 +15,9 @@ public class EnterTest extends BaseTest {
         objEnterPage.clickRegistrationButton();
         registration();
         objPersonalAreaPage.clickConstructorButton();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objConstructorPage.nonSelectBuns)));
         objConstructorPage.clickPersonalAreaButton();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objEnterPage.enterButton)));
         auth();
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(objConstructorPage.makeOrder)));
         assertEquals("Оформить заказ", driver.findElement(objConstructorPage.makeOrder).getText());

@@ -15,7 +15,9 @@ public class PersonalAreaTest extends BaseTest {
         objEnterPage.clickRegistrationButton();
         registration();
         objPersonalAreaPage.clickConstructorButton();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objConstructorPage.nonSelectBuns)));
         objConstructorPage.clickPersonalAreaButton();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objEnterPage.enterButton)));
         auth();
         objConstructorPage.clickPersonalAreaButton();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objPersonalAreaPage.quitButton)));
@@ -32,7 +34,9 @@ public class PersonalAreaTest extends BaseTest {
         objEnterPage.clickRegistrationButton();
         registration();
         objPersonalAreaPage.clickConstructorButton();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objConstructorPage.nonSelectBuns)));
         objConstructorPage.clickPersonalAreaButton();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objEnterPage.enterButton)));
         auth();
         objConstructorPage.clickPersonalAreaButton();
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objPersonalAreaPage.quitButton)));
@@ -53,7 +57,9 @@ public class PersonalAreaTest extends BaseTest {
         objEnterPage.clickRegistrationButton();
         registration();
         objPersonalAreaPage.clickConstructorButton();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objConstructorPage.nonSelectBuns)));
         objConstructorPage.clickPersonalAreaButton();
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objEnterPage.enterButton)));
         auth();
         objConstructorPage.clickPersonalAreaButton();
         objConstructorPage.clickMainButton();

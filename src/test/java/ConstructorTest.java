@@ -1,33 +1,34 @@
 import jdk.jfr.Description;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+@RunWith(JUnitParamsRunner.class)
 public class ConstructorTest extends BaseTest {
-    @Test
-    @Description("Проверить, что работают переходы из булок в соусы")
-    public void checkActiveBuns() {
-        objConstructorPage.clickChapterBuns();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(objConstructorPage.selectBuns)));
-        assertEquals("Булки", driver.findElement(objConstructorPage.selectBuns).getText());
+
+    private final Object[] getTestData() {
+        return new Object[]{
+                new Object[]{"Булки"},
+                new Object[]{"Соусы"},
+                new Object[]{"Начинки"}
+        };
     }
 
     @Test
-    @Description("Проверить, что работают переходы из соусов в начинки")
-    public void checkActiveSauces() {
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objConstructorPage.nonSelectSauces)));
-        objConstructorPage.clickChapterSauces();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(objConstructorPage.selectSauces)));
-        assertEquals("Соусы", driver.findElement(objConstructorPage.selectSauces).getText());
-    }
-
-    @Test
-    @Description("Проверить, что работают переходы из начинок в булки")
-    public void checkActiveFilling() {
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objConstructorPage.nonSelectFilling)));
-        objConstructorPage.clickChapterFilling();
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(objConstructorPage.selectFilling)));
-        assertEquals("Начинки", driver.findElement(objConstructorPage.selectFilling).getText());
+    @Parameters(method = "getTestData")
+    @Description("Проверяем, что по клику на вкладку {0} происходит переход к вкладке {0}")
+    public void checkActiveTab(String tab) {
+        if (!driver.findElement(objConstructorPage.getTabElement(tab)).getAttribute("class").contains("current")) {
+            driver.findElement(objConstructorPage.getTabElement(tab)).click();
+        }
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(objConstructorPage.getTabElement(tab))));
+        assertTrue("Переход к владке " + tab + " не произошел",
+                driver.findElement(objConstructorPage.getTabElement(tab)).getAttribute("class").contains("current"));
     }
 }

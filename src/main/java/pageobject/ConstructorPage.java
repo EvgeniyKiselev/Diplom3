@@ -33,10 +33,6 @@ public class ConstructorPage {
         this.selectFilling = By.xpath("//div[contains(@class, 'current')]/span[text()='Начинки']");
     }
 
-    public void clickEnterAccountButton() {
-        driver.findElement(enterAccountButton).click();
-    }
-
     public void clickPersonalAreaButton() {
         driver.findElement(personalAreaButton).click();
     }
@@ -45,15 +41,8 @@ public class ConstructorPage {
         driver.findElement(mainButton).click();
     }
 
-    public void clickChapterBuns() {
-        driver.findElement(nonSelectBuns).click();
+    public By getTabElement(String tabName) {
+        return By.xpath("//div[./span[text()='" + tabName + "']]");
     }
 
-    public void clickChapterSauces() {
-        driver.findElement(nonSelectSauces).click();
-    }
-
-    public void clickChapterFilling() {
-        driver.findElement(nonSelectFilling).click();
-    }
 }
