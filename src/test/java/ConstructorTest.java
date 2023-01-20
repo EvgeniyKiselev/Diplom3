@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ConstructorTest extends BaseTest {
     @Test
-    @Description("Проверь, что работают переходы из булок в соусы")
+    @Description("Проверить, что работают переходы из булок в соусы")
     public void checkActiveBuns() {
         objConstructorPage.clickChapterBuns();
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(objConstructorPage.selectBuns)));
@@ -14,7 +14,7 @@ public class ConstructorTest extends BaseTest {
     }
 
     @Test
-    @Description("Проверь, что работают переходы из соусов в начинки")
+    @Description("Проверить, что работают переходы из соусов в начинки")
     public void checkActiveSauces() {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objConstructorPage.nonSelectSauces)));
         objConstructorPage.clickChapterSauces();
@@ -23,7 +23,7 @@ public class ConstructorTest extends BaseTest {
     }
 
     @Test
-    @Description("Проверь, что работают переходы из начинок в булки")
+    @Description("Проверить, что работают переходы из начинок в булки")
     public void checkActiveFilling() {
         wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(objConstructorPage.nonSelectFilling)));
         objConstructorPage.clickChapterFilling();
