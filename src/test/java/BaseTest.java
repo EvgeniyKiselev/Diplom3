@@ -1,3 +1,4 @@
+import Configuration.TestProperties;
 import api.model.ResponseWithToken;
 import api.model.User;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -36,14 +37,22 @@ public class BaseTest {
     static String password;
     static User user;
 
+    protected static TestProperties properties = TestProperties.getInstance();
     protected final String URL = "https://stellarburgers.nomoreparties.site/";
 
     public WebDriver initDriver() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setExperimentalOption("useAutomationExtension", false);
-        chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver(chromeOptions);
+        if (properties.getProperties("browser").equals("yandex")) {
+            System.setProperty("webdriver.chrome.driver", "src/drv/chromedriver.exe");
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.setBinary("\"C:\\Program Files (x86)\\Yandex\\YandexBrowser\\Application\\browser.exe");
+            driver = new ChromeDriver(chromeOptions);
+        } else {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            chromeOptions.setExperimentalOption("useAutomationExtension", false);
+            chromeOptions.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver(chromeOptions);
+        }
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         objConstructorPage = new ConstructorPage(driver);
