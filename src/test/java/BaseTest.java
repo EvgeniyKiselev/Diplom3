@@ -44,7 +44,7 @@ public class BaseTest {
         if (properties.getProperties("browser").equals("yandex")) {
             System.setProperty("webdriver.chrome.driver", "src/drv/chromedriver.exe");
             ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.setBinary("\"C:\\Program Files (x86)\\Yandex\\YandexBrowser\\Application\\browser.exe");
+            chromeOptions.setBinary("C:\\Users\\veliz\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe");
             driver = new ChromeDriver(chromeOptions);
         } else {
             ChromeOptions chromeOptions = new ChromeOptions();
